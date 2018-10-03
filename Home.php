@@ -3,7 +3,7 @@ session_start();
 include 'connection.php';
 $username = isset($_POST['Uname']) ? $_POST['Uname'] : "";
 $password = isset($_POST['pass']) ? $_POST['pass'] : "";
-$result = validation($_POST);
+$result = validation($_POST);//validates the user
 //$error = "<p class='text-danger'>Username and password Error</p>";
 $id = getId($username); //generates id of the user
 //$id = $_GET["id"];
