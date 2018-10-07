@@ -7,10 +7,7 @@ $password = isset($_POST['pass']) ? $_POST['pass'] : NULL;
 $gender = isset($_POST['gender']) ? $_POST['gender'] : NULL;
 $email = isset($_POST['email']) ? $_POST['email'] : NULL;
 $error = "<p class='text-success'>Registered Successfully Click here to <a href = 'index.php'>Login</p>";
-function dispError($error)
-{
-    return $error;
-}
+
 
 /*echo "<pre>";
 print_r($_POST);
