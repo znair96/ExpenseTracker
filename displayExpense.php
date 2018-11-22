@@ -1,63 +1,28 @@
 <?php
-session_start();
-include 'connection.php';
-$username = isset($_POST['Uname']) ? $_POST['Uname'] : "";
-$password = isset($_POST['pass']) ? $_POST['pass'] : "";
-$result = validation($_POST);//validates the user
-//$error = "<p class='text-danger'>Username and password Error</p>";
- //generates id of the user
-//$id1 = $_GET["id"];
-//$_SESSION['val'] = $result; //checks for error
- //assigns the value in flag variable
-// $_SESSION['Name'] = getNameById($_GET['id']);
- //update logged status of a user in database
-//echo $res;
-//echo $id." ".$_SESSION['name'];
-if (isset($_POST['login'])) {
-    $id = getId($username);
-    $_SESSION['ID']=$id;
-    $_GET["flag"] = $_SESSION['val'];
-    $_SESSION['name'] = getNameById($id);
-    $res = updateLoggedStatusBy1($id);
-    if (!($result)) 
-    {
-      redirect("index.php?flag=".$_GET["flag"]); 
-    }
-    else
-    {
-      redirect("Home.php?id=".$id);
-      
-    }
-}
-// if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on')
-// {
-//     $hour = time() + 3600 * 24 * 30;
-//     setcookie('username', $username, $hour);
-//     setcookie('password', $password, $hour);
-// }
-//$oid = $_GET['id'];
-// if($_SESSION['ID']!=$_GET['id'])
-// {
-//     redirect("Error.php?id=".$id);
-// }
+   include 'connection.php';
+   session_start();
+   $id=$_GET['id'];
+   $host = "localhost";
+   $user = "root";
+   $password = "";
+   $database = "expensetracker";
+   $con = mysqli_connect($host, $user, $password, $database);
+   $sql = "select * from expense where user_id = ".$id;
+   $result = mysqli_query($con,$sql);
+   $rows = mysqli_num_rows($result);
+   //echo $id;
+   //echo $rows;
+   //print_r($data);
 ?>
 <?php
   $status=getLoggedInStatus($_GET['id']);
   if($status==1){
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>ExpenseTracker</title>
-
+<html>
+ <head>
+   <title>Display Expense</title>
+   <link href="css/ExpenseTracker.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!--     <link href="bootstrap3/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -69,13 +34,19 @@ if (isset($_POST['login'])) {
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!-- Custom style-->
-    <link href="css/ExpenseTracker.css" rel="stylesheet">
+    <style>
+    #dataTable{
+       margin-left:120px;
+       margin-top:30px;
+       
+    }
+    </style>
+   
     
-  </head>
-
-  <body id="page-top">
-
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+ </head>
+ <body>
+ 
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       <a class="navbar-brand mr-1" href="Home.php">Start</a>
 
@@ -94,8 +65,6 @@ if (isset($_POST['login'])) {
           </div>
         </div>
       </form>
-
-      <!-- Navbar -->
       <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -135,23 +104,42 @@ if (isset($_POST['login'])) {
           </a>
         </li>
       </ul> 
-  
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright © ExpenseTracker</span>
-            </div>
-          </div>
-        </footer>
-
-      </div>
-      <!-- /.content-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- Scroll to Top Button-->
+<div id="dataTable">
+ <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Expense Name </th>
+                <th>Expense Type</th>
+                <th>Cost</th>
+                <th>Date</th>
+                <th>Operation on Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+               for($i=1;$i<=$rows;$i++){
+               $data = mysqli_fetch_array($result);
+            ?>
+              <tr>
+              <td><?php echo $i  ?></td>
+              <td><?php echo $data["ExpName"]  ?></td>
+              <td><?php echo $data["ExpType"]  ?></td>
+              <td><?php echo $data["Cost"]  ?></td>
+              <td><?php echo $data["Date"]  ?></td>
+              <td><pre><a href="View.php?xid=<?php echo $data['ExpID'] ?>&id=<?php echo $_GET['id'] ?>">View</a>  <a href="Update.php?xid=<?php echo $data['ExpID'] ?>&id=<?php echo $_GET['id']?>">Update</a>  <a href="Delete.php?id=<?php echo $_GET['id'] ?>&xid=<?php echo $data['ExpID']?>">Delete</button></a></pre></td>
+              
+              </tr>
+            <?php
+               }?> 
+            
+        </tbody> 
+        <tfoot>
+         
+        </tfoot>
+    </table>
+</div>
+  <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
@@ -176,6 +164,7 @@ if (isset($_POST['login'])) {
     </div>
 
     <!-- Bootstrap core JavaScript-->
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -184,12 +173,17 @@ if (isset($_POST['login'])) {
 
     <!-- Custom scripts for all pages-->
     <script src="js/ExpenseTracker.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+ $(document).ready(function() {
+    $('#example').DataTable();
+} );
+ </script>
 <?php 
   } else{
       header('location:index.php');
   }
 ?>
-  </body>
-
+ </body>
 </html>

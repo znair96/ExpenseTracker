@@ -6,8 +6,11 @@ $username = isset($_POST['Uname']) ? $_POST['Uname'] : NULL;
 $password = isset($_POST['pass']) ? $_POST['pass'] : NULL;
 $gender = isset($_POST['gender']) ? $_POST['gender'] : NULL;
 $email = isset($_POST['email']) ? $_POST['email'] : NULL;
-$error = "<p class='text-success'>Registered Successfully Click here to <a href = 'index.php'>Login</p>";
-
+$success = "<p class='text-success'>Registered Successfully Click</p>";
+/* function dispError($error)
+{
+    return $error;
+}*/
 
 /*echo "<pre>";
 print_r($_POST);
@@ -19,7 +22,7 @@ if(isset($_POST['register'])) {
     $res = insert($_POST);
     if ($res) 
     {
-       $a = dispError($error);
+       $a = dispError($success);
     } 
    
    
@@ -30,6 +33,18 @@ if(isset($_POST['register'])) {
 <html>
 
 <head>
+<script type="text/javascript">
+var check = function() {
+	  if (document.getElementById('password').value ==
+	    document.getElementById('confirm_password').value) {
+	    document.getElementById('message').style.color = 'green';
+	    document.getElementById('message').innerHTML = 'Passwords matched';
+	  } else {
+	    document.getElementById('message').style.color = 'red';
+	    document.getElementById('message').innerHTML = 'Passwords not matched';
+	  }
+	}
+</script>
         <style> 
                 
                 body { 
@@ -184,7 +199,7 @@ if(isset($_POST['register'])) {
       <style>
     div {
     width: 500px;
-    height: 500px;
+    height: 600px;
     background-color: white;
      margin: auto; 
 }
@@ -216,31 +231,33 @@ if(isset($_POST['register'])) {
     <div class= "col-3 col-s-3">
         <form action="#" method="post">
             <label for="name">Name</label>
-            <input type="text" id="name" name="Name" placeholder="Your name" required>
+            <input type="text" id="name" name="Name" placeholder="Your name" pattern="^[A-Z][a-z]+$" title="Should start with alphabets" required>
 
             <label for="Uname">UserName</label>
             <input type="text" id="Uname" name="Uname" placeholder="Your Username" required>
 
             <label for="email">E-Mail</label>
-            <input type="email" id="email" name="email" placeholder="Your E-mail" required>
+            <input type="email" id="email" name="email" placeholder="Your E-mail"  required>
 
-            <label for="pass">Password</label>
+            <label for="password">Password</label>
             <br>
-            <input type="Password" id="pass" name="pass" placeholder="Your password" required>
-            <br>
-
-            <label for="cpass">Confirm Password</label>
-            <br>
-            <input type="Password" id="cpass" name="cpass" placeholder=" Confirm Your password" required>
+            <input type="Password" id="password" name="pass" placeholder="Your password" onkeyup="check()" pattern=".{9,}" title="Password should be more than 9 characters" required>
             <br>
 
+            <label for="confirm_password">Confirm Password</label>
+            <br>
+            <input type="Password" id="confirm_password" name="cpass" placeholder=" Confirm Your password"  onkeyup="check()" required>
+            <span id='message'></span>
+            <br>
+            
             <label for="gender">Gender</label>
             <br>
             <select id="gender" name="gender">
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Others">Others</option>
-            </select>
+            </select> 
+            
             <?php echo  isset($a) ? $a : ""?>
             <input type="submit" name="register" value="Register">
         </form>
@@ -249,7 +266,7 @@ if(isset($_POST['register'])) {
         footer {
             margin: 0px;
             background-color: lightgreen;
-            padding: 30px;
+            padding: 20px;
             text-align: left;
             color: white;
         }

@@ -1,3 +1,7 @@
+<?php
+   session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,10 +45,6 @@
             </div>
             <a class="btn btn-primary btn-block" href="index.php">Reset Password</a>
           </form>
-          <div class="text-center">
-            <a class="d-block small mt-3" href="Registration_Form.php">Register an Account</a>
-            <a class="d-block small" href="index.php">Login Page</a>
-          </div>
         </div>
       </div>
     </div>

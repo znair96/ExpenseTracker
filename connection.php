@@ -122,7 +122,67 @@
     function dispError($error)
     {
        return $error;
+    } 
+    function insertExpense($arr,$id)
+    {
+        $arr['name'] = isset($_POST['name']) ? $_POST['name'] : NULL;
+        $arr['select'] = isset($_POST['select']) ? $_POST['select'] : NULL;
+        $arr['cost'] = isset($_POST['cost']) ? $_POST['cost'] : NULL;
+        $arr['date'] = isset($_POST['date']) ? $_POST['date'] : NULL;
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "expensetracker";
+        $con = mysqli_connect($host, $user, $password, $database);
+        $sql = "insert into expense(`ExpName`, `ExpType`, `Cost`, `Date`, `user_id`) values('{$arr['name']}','{$arr['select']}',{$arr['cost']},'{$arr['date']}',$id)";
+        $result = mysqli_query($con,$sql);
+        return $result;
     }
-    
-
+    function getPassword($id)
+    {
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "expensetracker";
+        $con = mysqli_connect($host, $user, $password, $database);
+        $sql = "select password from users where user_id=".$id;
+        $result=mysqli_query($con, $sql);
+        $fetchPass = mysqli_fetch_assoc($result);
+        return $fetchPass['password'];
+    }
+    function setPassword($Password,$id)
+    {
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "expensetracker";
+        $con = mysqli_connect($host, $user, $password, $database);
+        $sql = "update users set password = '{$Password}' where user_id=".$id;
+        $result=mysqli_query($con, $sql);
+        return $result;
+    }
+    function getLoggedInStatus($id)
+    {
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "expensetracker";
+        $con = mysqli_connect($host, $user, $password, $database);
+        $sql="select LoggedInStatus from users where user_id=".$id;
+        $result=mysqli_query($con,$sql);
+        $fetchStatus=mysqli_fetch_assoc($result);
+        return $fetchStatus['LoggedInStatus'];
+    } 
+    function getTotalExpense($id,$month)
+    {
+        $host = "localhost";
+        $user = "root";
+        $password = "";
+        $database = "expensetracker";
+        $con = mysqli_connect($host, $user, $password, $database);
+        $sql="select sum(Cost) as TotalExpense from expense where user_id={$id} and month(Date)={$month}";
+        $result=mysqli_query($con,$sql);
+        $sum=mysqli_fetch_assoc($result);
+        return $sum['TotalExpense'];
+    }
 ?>

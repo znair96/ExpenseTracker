@@ -4,10 +4,10 @@
     $name = $_SESSION['name'];
     $id = $_GET["id"];
     $res = updateLoggedStatusBy0($id);
-   
+    session_destroy();
     if($res)
     {
-    redirect("index.php");
+        header("location:index.php");
     }
     /*
       LoggedInStatus = 1

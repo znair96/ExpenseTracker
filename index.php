@@ -1,15 +1,17 @@
 <?php
-   session_start();
+//    session_start();
    include 'connection.php';
    $username = isset($_POST['Uname']) ? $_POST['Uname'] : " ";
    $password = isset($_POST['pass']) ? $_POST['pass'] : " "; 
    //$result = userPasswordError($username,$password);
+   $id=getId($username);
    $a = dispError("<p>Username and password invalid</p>");
+   
    //echo $result;
-   if($username == "" && $password == "")
-   {
-       header('location:index.php');
-   }
+//    if($username == "" && $password == "")
+//    {
+//        header('location:index.php');
+//    }
 ?>
 <!DOCTYPE html>
 
@@ -186,8 +188,8 @@
                 <input type="password" id="pass" name="pass" placeholder="Your password" required>
                 <br>
                 <?php echo isset($_GET["flag"])? $a : ' '   ?>
-                <input type="checkbox" name="message" value="remember">Remember Me
-                <a href="forget_password.php">Forget Password?</a>
+<!--                 <input type="checkbox" name="remember_me" value="remember">Remember Me -->
+                <a class="dropdown-item" href="forgot-password.php">Forgot Password</a>
                 <br>
                 <input type="submit" name="login" value="Login">
             </form>
