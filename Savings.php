@@ -5,7 +5,8 @@
   //$_SESSION['ID']=$_GET['id'];
   $totalAmount = isset($_POST['amount']) ? $_POST['amount'] : NULL;
   $select = isset($_POST['select']) ? $_POST['select'] : NULL;
-  $totalExpense = getTotalExpense($_GET['id'], $select);
+  $selectYear = isset($_POST['selectYear']) ? $_POST['selectYear'] : NULL;
+  $totalExpense = getTotalExpense($_GET['id'], $select,$selectYear);
   //$savings=0;
   $result='';
    if(isset($_POST['submit']))
@@ -80,7 +81,7 @@
             </div>
         </div>   
         <div class="form-group row">
-            <label for="select" class="col-2 col-form-label">Expenditure</label> 
+            <label for="select" class="col-2 col-form-label">Expenditure Month</label> 
               <div class="col-6">
                 <select id="select" name="select" class="custom-select">  
                   <option value="option">Select--</option>                
@@ -96,6 +97,22 @@
                   <option value="10">October</option>
                   <option value="11">November</option>
                   <option value="12">December</option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group row"><!-- year selection -->
+            <label for="select" class="col-2 col-form-label">Expenditure Year</label> 
+              <div class="col-6">
+                <select id="select" name="selectYear" class="custom-select">  
+                  <option value="option">Select--</option>                
+                  <option value="2017">2017</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
                 </select>
               </div>
           </div>
