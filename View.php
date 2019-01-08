@@ -64,7 +64,7 @@ $data = mysqli_fetch_assoc($result);
     </tr>
     <tr>
       <th>Cost</th>
-      <td><?php echo $data['Cost'] ?></td>
+      <td><?php echo "Rs ".$data['Cost'] ?></td>
     </tr>
     <tr>
       <th>Date</th>
