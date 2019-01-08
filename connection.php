@@ -173,14 +173,14 @@
         $fetchStatus=mysqli_fetch_assoc($result);
         return $fetchStatus['LoggedInStatus'];
     } 
-    function getTotalExpense($id,$month)
+    function getTotalExpense($id,$month,$year)
     {
         $host = "localhost";
         $user = "root";
         $password = "";
         $database = "expensetracker";
         $con = mysqli_connect($host, $user, $password, $database);
-        $sql="select sum(Cost) as TotalExpense from expense where user_id={$id} and month(Date)={$month}";
+        $sql="select sum(Cost) as TotalExpense from expense where user_id={$id} and month(Date)={$month} and year(Date)={$year}";
         $result=mysqli_query($con,$sql);
         $sum=mysqli_fetch_assoc($result);
         return $sum['TotalExpense'];
