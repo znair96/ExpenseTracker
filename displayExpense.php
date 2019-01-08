@@ -125,7 +125,7 @@
               <td><?php echo $i  ?></td>
               <td><?php echo $data["ExpName"]  ?></td>
               <td><?php echo $data["ExpType"]  ?></td>
-              <td><?php echo $data["Cost"]  ?></td>
+              <td><?php echo "Rs ".$data["Cost"]  ?></td>
               <td><?php echo $data["Date"]  ?></td>
               <td><pre><a href="View.php?xid=<?php echo $data['ExpID'] ?>&id=<?php echo $_GET['id'] ?>">View</a>  <a href="Update.php?xid=<?php echo $data['ExpID'] ?>&id=<?php echo $_GET['id']?>">Update</a>  <a href="Delete.php?id=<?php echo $_GET['id'] ?>&xid=<?php echo $data['ExpID']?>">Delete</button></a></pre></td>
               
